@@ -1,3 +1,2 @@
-Game loop
-Keyboard input
-FPS
+Hero
+Walking sprites

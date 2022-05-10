@@ -7,6 +7,8 @@ import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
+import entity.Hero;
+
 public class Display extends JPanel implements Runnable {
 
     // SCREEN SETTINGS
@@ -16,7 +18,7 @@ public class Display extends JPanel implements Runnable {
     final int scale = 2;
 
     // Real tileSize = scale*originalTileSize x scale*originalTileSize pixels
-    final int tileSize = originalTileSize * scale;
+    public final int tileSize = originalTileSize * scale;
     // final int maxScreenCol = 24;
     // final int maxScreenRow = 12;
     final int maxScreenCol = 16;
@@ -30,6 +32,8 @@ public class Display extends JPanel implements Runnable {
     KeyInput keyInput = new KeyInput();
 
     Thread gameThread;
+
+    Hero hero = new Hero(this, keyInput);
 
     // Hero default position
     int heroX = 100;
@@ -72,7 +76,7 @@ public class Display extends JPanel implements Runnable {
             delta += (currentTime - lastTime) / drawInterval;
 
             // FPS counter
-            timer+=(currentTime - lastTime);
+            timer += (currentTime - lastTime);
 
             lastTime = currentTime;
 
@@ -91,7 +95,7 @@ public class Display extends JPanel implements Runnable {
 
             // FPS counter
             if (timer >= 1000000000) {
-                
+
                 System.out.println("FPS: " + drawCount);
                 drawCount = 0;
                 timer = 0;
@@ -101,18 +105,7 @@ public class Display extends JPanel implements Runnable {
 
     public void update() {
 
-        if (keyInput.upPressed) {
-            heroY -= heroSpeed;
-        }
-        if (keyInput.downPressed) {
-            heroY += heroSpeed;
-        }
-        if (keyInput.leftPressed) {
-            heroX -= heroSpeed;
-        }
-        if (keyInput.rightPressed) {
-            heroX += heroSpeed;
-        }
+        hero.update();
     }
 
     public void paintComponent(Graphics graphics) {
@@ -121,9 +114,7 @@ public class Display extends JPanel implements Runnable {
 
         Graphics2D graphics2D = (Graphics2D) graphics;
 
-        graphics2D.setColor(Color.white);
-
-        graphics2D.fillRect(heroX, heroY, tileSize, tileSize);
+        hero.draw(graphics2D);
 
         graphics2D.dispose();
     }
