@@ -1,2 +1,2 @@
-Hero
-Walking sprites
+Tile
+Map
