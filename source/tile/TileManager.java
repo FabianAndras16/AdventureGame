@@ -1,6 +1,7 @@
 package tile;
 
 import java.awt.Graphics2D;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -21,11 +22,11 @@ public class TileManager {
         this.display = display;
 
         tile = new Tile[10];
-        mapTileNumber = new int[display.maxScreenCol][display.maxScreenRow];
+        mapTileNumber = new int[display.maxMapCol][display.maxMapRow];
 
         getTileImage();
 
-        loadMap("/maps/map_template.txt");
+        loadMap("/maps/worldmap_template.txt");
     }
 
     public void getTileImage() {
@@ -41,6 +42,14 @@ public class TileManager {
             tile[2] = new Tile();
             tile[2].bufferedImage = ImageIO.read(getClass().getResourceAsStream("/tiles/water.png"));
 
+            tile[3] = new Tile();
+            tile[3].bufferedImage = ImageIO.read(getClass().getResourceAsStream("/tiles/earth.png"));
+
+            tile[4] = new Tile();
+            tile[4].bufferedImage = ImageIO.read(getClass().getResourceAsStream("/tiles/tree.png"));
+
+            tile[5] = new Tile();
+            tile[5].bufferedImage = ImageIO.read(getClass().getResourceAsStream("/tiles/road.png"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -56,12 +65,12 @@ public class TileManager {
             int col = 0;
             int row = 0;
 
-            while (col < display.maxScreenCol &&
-                    row < display.maxScreenRow) {
+            while (col < display.maxMapCol &&
+                    row < display.maxMapRow) {
 
                 String line = bufferedReader.readLine();
 
-                while (col < display.maxScreenCol) {
+                while (col < display.maxMapCol) {
 
                     String numbers[] = line.split(" ");
 
@@ -71,7 +80,7 @@ public class TileManager {
                     col++;
                 }
 
-                if (col == display.maxScreenCol) {
+                if (col == display.maxMapCol) {
 
                     col = 0;
                     row++;
@@ -87,28 +96,38 @@ public class TileManager {
 
     public void draw(Graphics2D graphics2D) {
 
-        int col = 0;
-        int row = 0;
-        int x = 0;
-        int y = 0;
+        int mapCol = 0;
+        int mapRow = 0;
 
-        while (col < display.maxScreenCol &&
-                row < display.maxScreenRow) {
+        while (mapCol < display.maxMapCol &&
+                mapRow < display.maxMapRow) {
 
-            int tileNumber = mapTileNumber[col][row];
+            int tileNumber = mapTileNumber[mapCol][mapRow];
 
-            graphics2D.drawImage(tile[tileNumber].bufferedImage, x, y, display.tileSize, display.tileSize, null);
+            int mapX = mapCol * display.tileSize;
+            int mapY = mapRow * display.tileSize;
+            int screenX = mapX - display.hero.mapX + display.hero.screenX;
+            int screenY = mapY - display.hero.mapY + display.hero.screenY;
 
-            col++;
-            x += display.tileSize;
+            if (mapX + display.tileSize> display.hero.mapX - display.hero.screenX &&
+                    mapX - display.tileSize < display.hero.mapX + display.hero.screenX &&
+                    mapY + display.tileSize > display.hero.mapY - display.hero.screenY &&
+                    mapY - display.tileSize < display.hero.mapY + display.hero.screenY) {
 
-            if (col == display.maxScreenCol) {
-                col = 0;
-                x = 0;
-                row++;
-                y += display.tileSize;
+                graphics2D.drawImage(
+                        tile[tileNumber].bufferedImage,
+                        screenX,
+                        screenY,
+                        display.tileSize,
+                        display.tileSize, null);
+            }
+
+            mapCol++;
+
+            if (mapCol == display.maxMapCol) {
+                mapCol = 0;
+                mapRow++;
             }
         }
-
     }
 }

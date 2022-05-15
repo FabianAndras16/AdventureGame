@@ -14,19 +14,25 @@ public class Hero extends Entity {
     Display display;
     KeyInput keyInput;
 
+    public final int screenX;
+    public final int screenY;
+
     public Hero(Display display, KeyInput keyInput) {
 
         this.display = display;
         this.keyInput = keyInput;
 
+        screenX = display.screenWidth / 2 - (display.tileSize / 2);
+        screenY = display.screenHeight / 2 - (display.tileSize / 2);
+        
         setDefaultValues();
         getHeroImage();
     }
 
     public void setDefaultValues() {
 
-        x = 100;
-        y = 100;
+        mapX = display.tileSize * 23;
+        mapY = display.tileSize * 21;
         speed = 4;
         direction = "down";
     }
@@ -57,19 +63,19 @@ public class Hero extends Entity {
 
             if (keyInput.upPressed) {
                 direction = "up";
-                y -= speed;
+                mapY -= speed;
             }
             if (keyInput.downPressed) {
                 direction = "down";
-                y += speed;
+                mapY += speed;
             }
             if (keyInput.leftPressed) {
                 direction = "left";
-                x -= speed;
+                mapX -= speed;
             }
             if (keyInput.rightPressed) {
                 direction = "right";
-                x += speed;
+                mapX += speed;
             }
 
             spriteCounter++;
@@ -127,7 +133,7 @@ public class Hero extends Entity {
                 break;
         }
 
-        graphics2D.drawImage(image, x, y, display.tileSize, display.tileSize, null);
+        graphics2D.drawImage(image, screenX, screenY, display.tileSize, display.tileSize, null);
 
     }
 

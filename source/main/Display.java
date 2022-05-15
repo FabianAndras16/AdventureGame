@@ -25,6 +25,12 @@ public class Display extends JPanel implements Runnable {
     public final int screenWidth = tileSize * maxScreenCol;
     public final int screenHeight = tileSize * maxScreenRow;
 
+    // MAP SETTINGS
+    public final int maxMapCol = 50;
+    public final int maxMapRow = 50;
+    public final int mapWidth = tileSize * maxMapCol;
+    public final int mapHeight = tileSize * maxMapRow;
+
     // FPS
     int FPS = 60;
 
@@ -34,7 +40,7 @@ public class Display extends JPanel implements Runnable {
 
     Thread gameThread;
 
-    Hero hero = new Hero(this, keyInput);
+    public Hero hero = new Hero(this, keyInput);
 
     public Display() {
 

@@ -4,8 +4,8 @@ import java.awt.image.BufferedImage;
 
 public class Entity {
 
-    public int x;
-    public int y;
+    public int mapX;
+    public int mapY;
     public int speed;
     
     public BufferedImage up1;
