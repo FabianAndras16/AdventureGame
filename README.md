@@ -1,2 +1,1 @@
-Hero
-Walking sprites
+Collision detection
