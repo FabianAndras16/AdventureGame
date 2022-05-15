@@ -40,6 +40,8 @@ public class Display extends JPanel implements Runnable {
 
     Thread gameThread;
 
+    public CollisionDetector collisionDtector = new CollisionDetector(this);
+
     public Hero hero = new Hero(this, keyInput);
 
     public Display() {

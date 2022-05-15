@@ -13,9 +13,9 @@ import main.Display;
 public class TileManager {
 
     Display display;
-    Tile[] tile;
+    public Tile[] tile;
 
-    int mapTileNumber[][];
+    public int mapTileNumber[][];
 
     public TileManager(Display display) {
 
@@ -34,22 +34,31 @@ public class TileManager {
         try {
 
             tile[0] = new Tile();
-            tile[0].bufferedImage = ImageIO.read(getClass().getResourceAsStream("/tiles/grass.png"));
+            tile[0].bufferedImage = 
+            ImageIO.read(getClass().getResourceAsStream("/tiles/grass.png"));
 
             tile[1] = new Tile();
-            tile[1].bufferedImage = ImageIO.read(getClass().getResourceAsStream("/tiles/wall.png"));
+            tile[1].bufferedImage = 
+            ImageIO.read(getClass().getResourceAsStream("/tiles/wall.png"));
+            tile[1].collision = true;
 
             tile[2] = new Tile();
-            tile[2].bufferedImage = ImageIO.read(getClass().getResourceAsStream("/tiles/water.png"));
+            tile[2].bufferedImage = 
+            ImageIO.read(getClass().getResourceAsStream("/tiles/water.png"));
+            tile[2].collision = true;
 
             tile[3] = new Tile();
-            tile[3].bufferedImage = ImageIO.read(getClass().getResourceAsStream("/tiles/earth.png"));
+            tile[3].bufferedImage = 
+            ImageIO.read(getClass().getResourceAsStream("/tiles/earth.png"));
 
             tile[4] = new Tile();
-            tile[4].bufferedImage = ImageIO.read(getClass().getResourceAsStream("/tiles/tree.png"));
+            tile[4].bufferedImage = 
+            ImageIO.read(getClass().getResourceAsStream("/tiles/tree.png"));
+            tile[4].collision = true;
 
             tile[5] = new Tile();
-            tile[5].bufferedImage = ImageIO.read(getClass().getResourceAsStream("/tiles/road.png"));
+            tile[5].bufferedImage = 
+            ImageIO.read(getClass().getResourceAsStream("/tiles/road.png"));
         } catch (Exception e) {
             e.printStackTrace();
         }

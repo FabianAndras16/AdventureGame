@@ -2,6 +2,7 @@ package entity;
 
 // import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import javax.imageio.ImageIO;
@@ -24,7 +25,13 @@ public class Hero extends Entity {
 
         screenX = display.screenWidth / 2 - (display.tileSize / 2);
         screenY = display.screenHeight / 2 - (display.tileSize / 2);
-        
+
+        solidArea = new Rectangle();
+        solidArea.x = display.tileSize / 6;
+        solidArea.y = display.tileSize / 3;
+        solidArea.width = display.tileSize - display.tileSize / 3;
+        solidArea.height = display.tileSize - display.tileSize / 3;
+
         setDefaultValues();
         getHeroImage();
     }
@@ -57,25 +64,43 @@ public class Hero extends Entity {
     public void update() {
 
         if (keyInput.upPressed ||
-            keyInput.downPressed ||
-            keyInput.leftPressed ||
-            keyInput.rightPressed) {
+                keyInput.downPressed ||
+                keyInput.leftPressed ||
+                keyInput.rightPressed) {
 
             if (keyInput.upPressed) {
                 direction = "up";
-                mapY -= speed;
             }
             if (keyInput.downPressed) {
                 direction = "down";
-                mapY += speed;
             }
             if (keyInput.leftPressed) {
                 direction = "left";
-                mapX -= speed;
             }
             if (keyInput.rightPressed) {
                 direction = "right";
-                mapX += speed;
+            }
+
+            // COLLISION DETECTION
+            collisionOn = false;
+            display.collisionDtector.checkTile(this);
+
+            if (collisionOn == false) {
+
+                switch (direction) {
+                    case "up":
+                        mapY -= speed;
+                        break;
+                    case "down":
+                        mapY += speed;
+                        break;
+                    case "left":
+                        mapX -= speed;
+                        break;
+                    case "right":
+                        mapX += speed;
+                        break;
+                }
             }
 
             spriteCounter++;
